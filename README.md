@@ -1,7 +1,7 @@
 
 
 
-```markdown
+
 # 🩸 Blood Cell Classification & GAN Image Generation
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue)
