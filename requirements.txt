@@ -25,3 +25,9 @@ streamlit
 Pillow
 seaborn
 notebook
+Flask==2.3.2
+torch==2.1.0
+torchvision==0.16.1
+Pillow==10.1.0
+tqdm==4.66.1
+mlflow==2.7.1

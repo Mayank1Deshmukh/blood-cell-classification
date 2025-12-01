@@ -212,3 +212,35 @@ __marimo__/
 dvc_remote/
 .dvc/cache/
 *.dvc.lock
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Virtual environment
+venv/
+env/
+.venv/
+.env/
+
+# PyTorch models
+*.pth
+*.pt
+
+# MLflow
+mlruns/
+*.mlflow
+
+# Static files
+static/gan_image.png
+
+# OS files
+.DS_Store
+Thumbs.db

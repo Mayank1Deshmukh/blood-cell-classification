@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Cell Classification & GAN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen flex flex-col items-center justify-start py-10">
+
+    <h1 class="text-3xl font-bold mb-6">🩸 Blood Cell Classification</h1>
+
+    <!-- Upload & Predict Section -->
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md mb-8">
+        <h2 class="text-xl font-semibold mb-4">Upload Blood Cell Image</h2>
+        <input type="file" id="imageInput" class="mb-4 w-full text-gray-900 p-2 rounded">
+        <button onclick="predict()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded w-full">Predict</button>
+
+        <h3 class="text-lg font-semibold mt-4">Prediction:</h3>
+        <p id="prediction" class="mt-2 text-green-400">No prediction yet</p>
+    </div>
+
+    <!-- GAN Generator Section -->
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-xl font-semibold mb-4">Generate GAN Image</h2>
+        <button onclick="generateGAN()" class="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded w-full mb-4">Generate Image</button>
+        <img id="ganImage" src="" alt="Generated GAN" class="mx-auto rounded border border-gray-600" width="256" height="256">
+    </div>
+
+    <script>
+        async function predict() {
+            const fileInput = document.getElementById('imageInput');
+            if(fileInput.files.length === 0){
+                alert("Please select an image!");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("file", fileInput.files[0]);
+
+            const response = await fetch("/predict", {
+                method: "POST",
+                body: formData
+            });
+
+            if(!response.ok){
+                alert("Prediction failed!");
+                return;
+            }
+
+            const data = await response.json();
+            document.getElementById("prediction").innerText = 
+                `ViT: ${data.ViT}, CustomViT: ${data.CustomViT}, Performer: ${data.Performer}`;
+        }
+
+        async function generateGAN() {
+            const response = await fetch("/generate_gan");
+            if(!response.ok){
+                alert("GAN generation failed!");
+                return;
+            }
+
+            const data = await response.json();
+            // Ensure no caching
+            document.getElementById("ganImage").src = data.gan_image + "?" + new Date().getTime();
+        }
+    </script>
+
+</body>
+</html>
